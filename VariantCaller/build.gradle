@@ -13,8 +13,8 @@ mainClassName = "com.epam.bioinf.variantcaller.Main"
 
 group 'com.epam.bioinf.variantcaller'
 
-sourceCompatibility = 1.11
-targetCompatibility = 1.11
+sourceCompatibility = 1.12
+targetCompatibility = 1.12
 
 sourceSets {
   main {
