@@ -1,19 +1,16 @@
 name: Project building and testing
 
 on:
-  
   pull_request:
     types: [opened, reopened, synchronize]
     branches:
-    - master
+    - main
     paths:
     - "VariantCaller/**"
 
 jobs:
   build:
-    
     name: Building and testing
-    
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
