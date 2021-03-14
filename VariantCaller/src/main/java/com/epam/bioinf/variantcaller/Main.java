@@ -17,12 +17,15 @@ import java.util.List;
  */
 public class Main {
   public static void main(String[] args) {
-    ParsedArguments parsedArguments = CommandLineParser.parse(args);
+    var parsedArguments = CommandLineParser.parse(args);
+
     System.out.println("Reading data...");
-    IndexedFastaSequenceFile fastaSequenceFile =
-        new FastaHandler(parsedArguments).getFastaSequenceFile();
-    List<SAMRecord> samRecords = new SamHandler(parsedArguments).getSamRecords();
+
+    var fastaSequenceFile = new FastaHandler(parsedArguments).getFastaSequenceFile();
+    var samRecords = new SamHandler(parsedArguments).getSamRecords();
+
     new Caller(fastaSequenceFile, samRecords).findVariants();
+
     System.out.println("Success");
   }
 }
