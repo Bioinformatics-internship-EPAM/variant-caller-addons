@@ -9,3 +9,4 @@
 
 [Инструкция по сборке](/Docs/Project_set_up.md)
 [Инструкция по передаче параметров программе](/Docs/Command_line_args.md)
+
