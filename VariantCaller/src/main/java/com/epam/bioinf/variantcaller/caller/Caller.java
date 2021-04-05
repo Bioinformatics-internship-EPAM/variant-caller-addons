@@ -99,7 +99,7 @@ public class Caller {
             readData,
             positionTracker
         );
-        saveAlleles(alleles, readData, positionTracker.getRefIndex());
+        saveAlleles(alleles, readData, positionTracker);
         positionTracker.moveIndices(0, cigarElementLength);
         break;
       }
@@ -109,7 +109,7 @@ public class Caller {
             readData,
             positionTracker
         );
-        saveAlleles(alleles, readData, positionTracker.getRefIndex());
+        saveAlleles(alleles, readData, positionTracker);
         positionTracker.moveIndices(cigarElementLength, 0);
         break;
       }
@@ -118,7 +118,7 @@ public class Caller {
       case EQ: {
         for (int i = 0; i < cigarElement.getLength(); ++i) {
           var alleles = performAlignmentCigarOperation(readData, positionTracker, i);
-          saveAlleles(alleles, readData, positionTracker.getRefIndex() + i);
+          saveAlleles(alleles, readData, positionTracker, i);
         }
         positionTracker.moveIndices(cigarElementLength, cigarElementLength);
         break;
@@ -192,6 +192,10 @@ public class Caller {
     );
   }
 
+  private void saveAlleles(Alleles alleles, ReadData readData, PositionTracker positionTracker) {
+    saveAlleles(alleles, readData, positionTracker, 0);
+  }
+
   /**
    * Increments alleles count.
    *
@@ -202,18 +206,18 @@ public class Caller {
    * @see Alleles
    * @see ReadData
    */
-  private void saveAlleles(Alleles alleles, ReadData readData, int shift) {
+  private void saveAlleles(Alleles alleles, ReadData readData, PositionTracker positionTracker, int shift) {
     computeVariantInfo
         (
             readData.getContig(),
-            readData.getStart() + shift,
+            readData.getStart() + positionTracker.getRefIndex() + shift,
             alleles.getRefAllele()
         )
         .computeSample(readData.getSampleName())
         .computeAllele(alleles.getAltAllele())
         .incrementStrandCount(readData.getReadNegativeStrandFlag())
         .addMapQ(readData.getMappingQuality())
-        .addBaseQ(readData.getBaseQualityAtPosition(shift));
+        .addBaseQ(readData.getBaseQualityAtPosition(positionTracker.getReadIndex() + shift));
   }
 
   /**
