@@ -48,9 +48,9 @@ public class SamHandler {
                 .getReadGroups()
                 .stream().filter(gr -> gr.getId().equals(record.getAttribute(SAMTag.RG.name())))
                 .findFirst();
-            readGroup.ifPresent(samReadGroupRecord -> {
-              record.setAttribute(SAMTag.SM.name(), samReadGroupRecord.getSample());
-            });
+            readGroup.ifPresentOrElse(
+                    samReadGroupRecord -> { record.setAttribute(SAMTag.SM.name(), samReadGroupRecord.getId()); },
+                    () -> { record.setAttribute(SAMTag.SM.name(), path.getFileName().toString()); }   );
             samRecords.add(record);
           }
         }
