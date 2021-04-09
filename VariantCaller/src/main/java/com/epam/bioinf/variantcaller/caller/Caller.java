@@ -206,7 +206,12 @@ public class Caller {
    * @see Alleles
    * @see ReadData
    */
-  private void saveAlleles(Alleles alleles, ReadData readData, PositionTracker positionTracker, int shift) {
+  private void saveAlleles(
+      Alleles alleles,
+      ReadData readData,
+      PositionTracker positionTracker,
+      int shift
+  ) {
     computeVariantInfo
         (
             readData.getContig(),

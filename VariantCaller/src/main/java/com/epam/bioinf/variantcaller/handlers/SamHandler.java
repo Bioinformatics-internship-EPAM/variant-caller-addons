@@ -43,14 +43,14 @@ public class SamHandler {
       try (SamReader reader = samFactory.open(path)) {
         for (SAMRecord record : reader) {
           if (hasEmptyIntervals || isInsideAnyInterval(record, intervals)) {
-            Optional<SAMReadGroupRecord> readGroup = reader
+            Optional<SAMReadGroupRecord> samReadGroupRecord = reader
                 .getFileHeader()
                 .getReadGroups()
                 .stream().filter(gr -> gr.getId().equals(record.getAttribute(SAMTag.RG.name())))
                 .findFirst();
-            readGroup.ifPresentOrElse(
-                    samReadGroupRecord -> { record.setAttribute(SAMTag.SM.name(), samReadGroupRecord.getId()); },
-                    () -> { record.setAttribute(SAMTag.SM.name(), path.getFileName().toString()); }   );
+            samReadGroupRecord.ifPresentOrElse(
+                readGroup -> record.setAttribute(SAMTag.SM.name(), readGroup.getId()),
+                () -> record.setAttribute(SAMTag.SM.name(), path.getFileName().toString()));
             samRecords.add(record);
           }
         }
