@@ -20,7 +20,7 @@
     <!--
     Checks if there is an empty string at the end of the file
     -->
-<!--    <module name="NewlineAtEndOfFile"/>-->
+    <module name="NewlineAtEndOfFile"/>
 
     <module name="TreeWalker">
 
